@@ -1,9 +1,8 @@
 package com.driver.services.impl;
 
 import com.driver.model.Payment;
-import com.driver.model.Reservation;
-import com.driver.model.Spot;
 import com.driver.model.PaymentMode;
+import com.driver.model.Reservation;
 import com.driver.repository.PaymentRepository;
 import com.driver.repository.ReservationRepository;
 import com.driver.services.PaymentService;
@@ -19,33 +18,32 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
-        Reservation reservation=reservationRepository2.findById(reservationId).get();
-        Spot spot=reservation.getSpot();
+        Reservation reservation;
+        try {
+            reservation = reservationRepository2.findById(reservationId).get();
 
-        Payment payment=reservation.getPayment();
-        int bill=reservation.getNumberOfHours()*reservation.getSpot().getPricePerHour();
+        }catch (Exception e){
+            throw new RuntimeException();
+        }
+        Payment payment = new Payment();
 
-        String modeType=mode.toUpperCase();
-        if(modeType.equals("CASH")){
-            payment.setPaymentMode(PaymentMode.CASH);
+        // amount check and mode check
+        int bill = reservation.getSpot().getPricePerHour() * reservation.getNumberOfHours();
+
+        if(amountSent < bill){
+            throw new Exception("Insufficient Amount");
         }
-        else if(modeType.equals("CARD")) {
-            payment.setPaymentMode(PaymentMode.CARD);
-        }
-        else if(modeType.equals("UPI")){
-            payment.setPaymentMode(PaymentMode.UPI);
-        }
-        else{
+        if (!mode.toUpperCase().equals("CASH") && !mode.toUpperCase().equals("CARD") && !mode.toUpperCase().equals("UPI") ) {
             throw new Exception("Payment mode not detected");
         }
 
-        if(amountSent<bill){
-            throw new Exception("Insufficient Amount");
-        }
+        PaymentMode paymentMode = PaymentMode.valueOf(mode.toUpperCase());
+        payment.setPaymentMode(paymentMode);
         payment.setPaymentCompleted(true);
         payment.setReservation(reservation);
-        spot.setOccupied(false);
         reservation.setPayment(payment);
+
+
         reservationRepository2.save(reservation);
         return payment;
     }

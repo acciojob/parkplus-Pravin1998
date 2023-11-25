@@ -3,41 +3,37 @@ package com.driver.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="payment")
+@Table(name = "payment")
 public class Payment {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private Boolean isPaymentCompleted;
+
+    private boolean paymentCompleted;
+    @Enumerated(value = EnumType.STRING)
     private PaymentMode paymentMode;
+
     @OneToOne
     @JoinColumn
-    private Reservation reservation;
+    Reservation reservation;
 
-    public Payment() {
-    }
-
-    public Payment(int id, Boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
-        this.id = id;
-        this.isPaymentCompleted = paymentCompleted;
+    public Payment(boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
+        this.paymentCompleted = paymentCompleted;
         this.paymentMode = paymentMode;
         this.reservation = reservation;
     }
 
-    public int getId() {
-        return id;
+    public Payment() {
+
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public boolean isPaymentCompleted() {
+        return paymentCompleted;
     }
 
-    public Boolean getPaymentCompleted() {
-        return isPaymentCompleted;
-    }
-
-    public void setPaymentCompleted(Boolean paymentCompleted) {
-        isPaymentCompleted = paymentCompleted;
+    public void setPaymentCompleted(boolean paymentCompleted) {
+        this.paymentCompleted = paymentCompleted;
     }
 
     public PaymentMode getPaymentMode() {
