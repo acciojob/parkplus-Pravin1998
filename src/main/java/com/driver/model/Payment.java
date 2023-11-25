@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Payment {
 
     @Id
-    private Integer paymentId;
+    private int paymentId;
 
     private Boolean paymentCompleted;
 
@@ -20,18 +20,18 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(Integer paymentId, Boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
+    public Payment(int paymentId, Boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
         this.paymentId = paymentId;
         this.paymentCompleted = paymentCompleted;
         this.paymentMode = paymentMode;
         this.reservation = reservation;
     }
 
-    public Integer getPaymentId() {
+    public int getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(Integer paymentId) {
+    public void setPaymentId(int paymentId) {
         this.paymentId = paymentId;
     }
 

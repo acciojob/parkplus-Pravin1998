@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private int userId;
 
     private String name;
 
@@ -24,7 +24,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer userId, String name, String phoneNo, String password, List<Reservation> reservationList) {
+    public User(int userId, String name, String phoneNo, String password, List<Reservation> reservationList) {
         this.userId = userId;
         this.name = name;
         this.phoneNo = phoneNo;
@@ -32,11 +32,11 @@ public class User {
         this.reservationList = reservationList;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

@@ -11,12 +11,12 @@ public class Spot {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer spotId;
+    private int spotId;
 
     @Enumerated(value = EnumType.STRING)
     private SpotType spotType;
 
-    private Integer pricePerHour;
+    private int pricePerHour;
 
     private Boolean occupied;
 
@@ -30,7 +30,7 @@ public class Spot {
     public Spot() {
     }
 
-    public Spot(Integer spotId, SpotType spotType, Integer pricePerHour, Boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
+    public Spot(int spotId, SpotType spotType, int pricePerHour, Boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
         this.spotId = spotId;
         this.spotType = spotType;
         this.pricePerHour = pricePerHour;
@@ -39,11 +39,11 @@ public class Spot {
         this.reservationList = reservationList;
     }
 
-    public Integer getSpotId() {
+    public int getSpotId() {
         return spotId;
     }
 
-    public void setSpotId(Integer spotId) {
+    public void setSpotId(int spotId) {
         this.spotId = spotId;
     }
 
@@ -55,7 +55,7 @@ public class Spot {
         this.spotType = spotType;
     }
 
-    public Integer getPricePerHour() {
+    public int getPricePerHour() {
         return pricePerHour;
     }
 
