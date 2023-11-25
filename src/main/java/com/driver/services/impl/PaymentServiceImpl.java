@@ -1,9 +1,9 @@
 package com.driver.services.impl;
 
 import com.driver.model.Payment;
-import com.driver.model.PaymentMode;
 import com.driver.model.Reservation;
 import com.driver.model.Spot;
+import com.driver.model.PaymentMode;
 import com.driver.repository.PaymentRepository;
 import com.driver.repository.ReservationRepository;
 import com.driver.services.PaymentService;
@@ -19,37 +19,34 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
+        Reservation reservation=reservationRepository2.findById(reservationId).get();
+        Spot spot=reservation.getSpot();
 
-        Reservation reservation = reservationRepository2.findById(reservationId).get();
+        Payment payment=reservation.getPayment();
+        int bill=reservation.getNumberOfHours()*reservation.getSpot().getPricePerHour();
 
-        Spot spot =  reservation.getSpot();
-
-        Payment payment = reservation.getPayment();
-
-        int bill = reservation.getNoOfHours() * reservation.getSpot().getPricePerHour();
-
-        String modType = mode.toUpperCase();
-
-        if(modType.equals("CASH")){
+        String modeType=mode.toUpperCase();
+        if(modeType.equals("CASH")){
             payment.setPaymentMode(PaymentMode.CASH);
-        } else if(modType.equals("CARD")){
+        }
+        else if(modeType.equals("CARD")) {
             payment.setPaymentMode(PaymentMode.CARD);
-        }else if(modType.equals("UPI")){
+        }
+        else if(modeType.equals("UPI")){
             payment.setPaymentMode(PaymentMode.UPI);
-        }else{
+        }
+        else{
             throw new Exception("Payment mode not detected");
         }
 
-        if(amountSent < bill){
+        if(amountSent<bill){
             throw new Exception("Insufficient Amount");
         }
-
         payment.setPaymentCompleted(true);
         payment.setReservation(reservation);
         spot.setOccupied(false);
         reservation.setPayment(payment);
         reservationRepository2.save(reservation);
         return payment;
-
     }
 }

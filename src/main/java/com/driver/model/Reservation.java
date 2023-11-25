@@ -1,56 +1,57 @@
 package com.driver.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "reservation")
+@Table(name="reservation")
 public class Reservation {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reservationId;
-
-    private int noOfHours;
-
-    @ManyToOne
-    @JoinColumn
-    private Spot spot;
-
-    @OneToOne
-    @JoinColumn
-    private Payment payment;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
+    private int numberOfHours;
 
     @ManyToOne
     @JoinColumn
     private User user;
+    @ManyToOne
+    @JoinColumn
+    private Spot spot;
+    @OneToOne(mappedBy ="reservation",cascade =CascadeType.ALL)
+    private Payment payment;
 
     public Reservation() {
     }
 
-    public Reservation(int reservationId, int noOfHours, Spot spot, Payment payment, User user) {
-        this.reservationId = reservationId;
-        this.noOfHours = noOfHours;
+    public Reservation(int id, int numberOfHours, User user, Spot spot, Payment payment) {
+        this.id = id;
+        this.numberOfHours = numberOfHours;
+        this.user = user;
         this.spot = spot;
         this.payment = payment;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNumberOfHours() {
+        return numberOfHours;
+    }
+
+    public void setNumberOfHours(int numberOfHours) {
+        this.numberOfHours = numberOfHours;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
-    }
-
-    public int getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
-    }
-
-    public int getNoOfHours() {
-        return noOfHours;
-    }
-
-    public void setNoOfHours(int noOfHours) {
-        this.noOfHours = noOfHours;
     }
 
     public Spot getSpot() {
@@ -67,13 +68,5 @@ public class Reservation {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

@@ -5,46 +5,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "spot")
-
+@Table(name ="spot")
 public class Spot {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int spotId;
-
-    @Enumerated(value = EnumType.STRING)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
     private SpotType spotType;
-
     private int pricePerHour;
-
     private Boolean occupied;
-
     @ManyToOne
     @JoinColumn
     private ParkingLot parkingLot;
-
-    @OneToMany(mappedBy = "spot", cascade = CascadeType.ALL)
-    private List<Reservation> reservationList = new ArrayList<>();
+    @OneToMany(mappedBy="spot",cascade =CascadeType.ALL)
+    List<Reservation> reservationList;
 
     public Spot() {
     }
 
-    public Spot(int spotId, SpotType spotType, int pricePerHour, Boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
-        this.spotId = spotId;
+    public Spot(int id, SpotType spotType, int pricePerHour, Boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
+        this.id = id;
         this.spotType = spotType;
         this.pricePerHour = pricePerHour;
         this.occupied = occupied;
         this.parkingLot = parkingLot;
-        this.reservationList = reservationList;
+        this.reservationList = new ArrayList<>();
     }
 
-    public int getSpotId() {
-        return spotId;
+    public int getId() {
+        return id;
     }
 
-    public void setSpotId(int spotId) {
-        this.spotId = spotId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public SpotType getSpotType() {
@@ -59,7 +51,7 @@ public class Spot {
         return pricePerHour;
     }
 
-    public void setPricePerHour(Integer pricePerHour) {
+    public void setPricePerHour(int pricePerHour) {
         this.pricePerHour = pricePerHour;
     }
 
